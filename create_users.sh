@@ -32,11 +32,14 @@ fi
 if [ ! -f "$PASSWORD_FILE" ]; then
  echo "creating secure password directory..."
  sudo mkdir -p /var/secure
+ sudo chmod 700 /var/secure
  sudo touch "$PASSWORD_FILE"
  sudo chmod go-rwx "$PASSWORD_FILE"
  log_message "created Password file "
 fi
 
+
+#use internal field separator(IFS) to get the username and group name
 while IFS=";" read -r username groups; do
 
  username=$(echo "$username" | xargs)
@@ -56,6 +59,7 @@ while IFS=";" read -r username groups; do
  useradd -m -g  "$username" "$username" &>> "$LOG_MANAGER_FILE"
  log_message "user created in home directory"
 
+ #add group in the etc/group directory
  for group in $(echo "$groups" | tr ',' ' '); do
     if ! grep -q  "^$groups:" /etc/group; then
      groupadd "$group" &>> "$LOG_MANAGER_FILE"
@@ -66,6 +70,7 @@ while IFS=";" read -r username groups; do
    log_message  "Added user: $username to: $group"
  done
 
+ #assign passwords to users
  password=$(generate_password)
  echo "$username, $password" >> "$PASSWORD_FILE"
  echo "$password" | passwd --stdin "$username" &>> "$LOG_MANAGER_FILE"

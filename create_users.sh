@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#create log and password file
+LOG_MANAGER_FILE="/var/log/user_management.log"
+PASSWORD_FILE="/var/secure/user_password.txt"
+
+
 #generate random password
 generate_password() {
     openssl  rand -base64 16

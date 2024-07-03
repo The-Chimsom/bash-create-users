@@ -12,7 +12,7 @@ generate_password() {
 
 #log messages into the log manager file
 log_message() {
-    echo "$(date +'%Y-%M-%D-%S') -$1" >> "$LOG_MANAGER_FILE"
+    echo "$(date +'%Y-%m-%d %H:%M:%S') -$1" >> "$LOG_MANAGER_FILE"
 }
 
 #ensure txt file is provided as argument

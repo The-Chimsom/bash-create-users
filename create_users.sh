@@ -68,7 +68,7 @@ while IFS=";" read -r username groups; do
 
  password=$(generate_password)
  echo "$username, $password" >> "$PASSWORD_FILE"
- echo "$password" | psswd --stdin "$username" &>> "$LOG_MANAGER_FILE"
+ echo "$password" | passwd --stdin "$username" &>> "$LOG_MANAGER_FILE"
  log_message "User Password generated and set for: $username"
 
 done < "$1"
